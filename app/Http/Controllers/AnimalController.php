@@ -19,8 +19,8 @@ class AnimalController extends Controller
     
     public function create()
     {
-      $cliente = Cliente::all();
-       return view('animal.create', compact('cliente'));
+      $clientes = Cliente::all();
+       return view('animal.create', compact('clientes'));
     }
 
     
@@ -39,9 +39,12 @@ class AnimalController extends Controller
     }
 
     
-    public function show(Animal $animal)
+    public function show(\App\Models\Animal $animal)
     {
-        //
+       // Carrega o cliente e os serviços para exibição
+        $animal->load('cliente', 'servicos');
+        
+        return view('animal.show', compact('animal'));
     }
 
     
@@ -58,7 +61,7 @@ class AnimalController extends Controller
             'nome' => 'required|max:255',
             'especie' => 'nullable|max:255',
             'raca' => 'nullable|max:255',
-            'cliente_id' => 'required|exists:cliente,id', 
+            'cliente_id' => 'required|exists:clientes,id', 
         ]);
         $animal->update($request->all());
         return redirect()->route('animal.index')

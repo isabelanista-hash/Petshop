@@ -5,52 +5,65 @@
     <title>Lista de Animais</title>
 </head>
 <body>
-    <h1>Animais Cadastrados</h1>
-    <a href="{{ route('animal.create') }}">Adicionar Novo Animal</a>
-    |
-    <a href="{{ route('cliente.index') }}">Ver Clientes</a>
-    <hr>
-    
-    @if(session('success'))
-        <p style="color: green;">{{ session('success') }}</p>
-    @endif
+    @extends('layouts.app')
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Espécie</th>
-                <th>Raça</th>
-                <th>Dono (Cliente)</th> <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($animais as $animal)
+@section('title', 'Lista de Animais')
+
+@section('content')
+    <h1 class="mb-4">Animais Cadastrados</h1>
+    
+    <div class="d-flex justify-content-between mb-3">
+        <a href="{{ route('animal.create') }}" class="btn btn-primary">Adicionar Novo Animal</a>
+        <a href="{{ route('cliente.index') }}" class="btn btn-secondary">Ver Clientes</a>
+    </div>
+
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+    
+    @if($animais->isEmpty())
+        <div class="alert alert-info">Nenhum animal cadastrado.</div>
+    @else
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Espécie</th>
+                    <th>Raça</th>
+                    <th>Dono (Cliente)</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($animais as $animal)
                 <tr>
                     <td>{{ $animal->id }}</td>
                     <td>{{ $animal->nome }}</td>
                     <td>{{ $animal->especie }}</td>
                     <td>{{ $animal->raca }}</td>
-                    <td>{{ $animal->cliente->nome ?? 'Cliente Não Encontrado' }}</td>
+                    <td><a href="{{ route('cliente.show', $animal->cliente->id) }}">{{ $animal->cliente->nome ?? 'N/D' }}</a></td>
+                    
                     <td>
-                        <a href="#">Ver</a> | 
-                        <a href="#">Editar</a>
+                        <a href="{{ route('animal.show', $animal->id) }}" class="btn btn-sm btn-info">
+                            Ver Detalhes
+                        </a>
+                        <a href="{{ route('animal.edit', $animal->id) }}" class="btn btn-sm btn-warning">
+                            Editar
+                        </a>
+                        <form action="{{ route('animal.destroy', $animal->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza?')">
+                                Excluir
+                            </button>
+                        </form>
                     </td>
-                    <td>
-    <a href="{{ route('animal.edit', $animal->id) }}"></a> 
-    
-    |
-    
-    <form action="{{ route('animal.destroy', $animal->id) }}" method="POST" style="display:inline;">
-        @csrf
-        @method('DELETE')
-        <button type="submit" onclick="return confirm('Tem certeza? Isso excluirá todos os serviços deste animal.')" style="border: none; background: none; color: blue; cursor: pointer; padding: 0;">Excluir</button>
-    </form>
-</td>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
+@endsection
 </body>
 </html>

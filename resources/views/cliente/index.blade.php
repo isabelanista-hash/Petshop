@@ -44,25 +44,28 @@
                     <td>{{ $cliente->nome }}</td>
                     <td>{{ $cliente->telefone }}</td>
                     <td>{{ $cliente->endereco }}</td>
-                    <td>
-                        <a href="{{ route('cliente.edit', $cliente->id) }}" class="btn btn-sm btn-warning">
-                            Editar
-                        </a>
-                        
-                        <form action="{{ route('cliente.destroy', $cliente->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza?')">
-                                Excluir
-                            </button>
-                        </form>
-                    </td>
+                   ...
+                <td>
+                    <a href="{{ route('cliente.show', $cliente->id) }}" class="btn btn-sm btn-info">
+                        Ver Detalhes
+                    </a>
+                    
+                    <a href="{{ route('cliente.edit', $cliente->id) }}" class="btn btn-sm btn-warning">
+                        Editar
+                    </a>
+                    
+                    <form action="{{ route('cliente.destroy', $cliente->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza?')">
+                            Excluir
+                        </button>
+                    </form>
+                </td>
                 </tr>
                 @endforeach
-                {{-- 🚨 O loop fecha aqui! --}}
-            </tbody>
         </table>
-    @endif
-@endsection
+        @endif
+    @endsection
 </body>
 </html>

@@ -43,9 +43,11 @@ class ClienteController extends Controller
                          ->with('success', 'Cliente cadastrado com sucesso!');
     }
 
-    public function show(Cliente $cliente)
+    public function show(\App\Models\Cliente $cliente)
     {
-        //
+        // E o carregamento dos animais e dos serviços de cada um
+       $cliente->load('animals.servicos');
+       return view('cliente.show', compact('cliente'));
     }
 
     

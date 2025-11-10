@@ -5,14 +5,23 @@
     <title>Lista de Serviços</title>
 </head>
 <body>
-    <h1>Serviços Registrados</h1>
-    <a href="{{ route('servico.create') }}">Adicionar Novo Serviço</a>
-    |
-    <a href="{{ route('animal.index') }}">Ver Animais</a>
-    <hr>
+    @extends('layouts.app')
+
+    @section('title', 'Lista de Serviços')
+
+    @section('content')
+
+    <h1 class="mb-4">Serviços Registrados</h1>
+    <a href="{{ route('servico.create') }}" class="btn btn-primary">Adicionar Novo Serviço</a>
+        <a href="{{ route('animal.index') }}" class="btn btn-secondary">Ver Animais</a>
+    </div>
+
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
     
-    <table border="1">
-        <thead>
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
             <tr>
                 <th>ID</th>
                 <th>Tipo</th>
@@ -23,28 +32,35 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($servico as $servico)
-                <tr>
-                    <td>{{ $servico->id }}</td>
-                    <td>{{ $servico->tipo }}</td>
-                    <td>{{ $servico->animal->nome ?? 'N/D' }} ({{ $servico->animal->raca ?? 'N/D' }})</td>
-                    <td>{{ $servico->animal->cliente->nome ?? 'N/D' }}</td>
-                    <td>R$ {{ number_format($servico->valor, 2, ',', '.') }}</td>
-                    <td><a href="#">Ver</a> | <a href="#">Editar</a></td>
+            @foreach ($servicos as $servico)
+            <tr>
+                <td>{{ $servico->id }}</td>
+                <td>{{ $servico->tipo }}</td>
+                <td>{{ $servico->animal->nome ?? 'N/D' }} ({{ $servico->animal->raca ?? 'N/D' }})</td>
+                <td>{{ $servico->animal->cliente->nome ?? 'N/D' }}</td>
+                <td>R$ {{ number_format($servico->valor, 2, ',', '.') }}</td>
+                
+                {{-- 🚨 COLUNA DE AÇÕES CORRIGIDA (Próximo passo) --}}
                 <td>
-    <a href="{{ route('servico.edit', $servico->id) }}"></a> 
-    
-    |
-    
-    <form action="{{ route('servico.destroy', $servico->id) }}" method="POST" style="display:inline;">
-        @csrf
-        @method('DELETE')
-        <button type="submit" onclick="return confirm('Tem certeza que deseja excluir este serviço?')" style="border: none; background: none; color: blue; cursor: pointer; padding: 0;">Excluir</button>
-    </form>
-</td>
-                </tr>
+                    <a href="{{ route('servico.show', $servico->id) }}" class="btn btn-sm btn-info">
+                        Ver Detalhes
+                    </a>
+                    <a href="{{ route('servico.edit', $servico->id) }}" class="btn btn-sm btn-warning">
+                        Editar
+                    </a>
+                    <form action="{{ route('servico.destroy', $servico->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja excluir este serviço?')">
+                            Excluir
+                        </button>
+                    </form>
+                </td>
+            </tr>
             @endforeach
         </tbody>
+    </table>
+@endsection
     </table>
 </body>
 </html>

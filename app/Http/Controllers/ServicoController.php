@@ -11,8 +11,8 @@ class ServicoController extends Controller
     
     public function index()
     {
-        $servico = Servico::with('animal.cliente')->get();
-        return view('servico.index', compact('servico'));
+        $servicos = Servico::with('animal.cliente')->get();
+        return view('servico.index', compact('servicos'));
     }
 
    
@@ -37,9 +37,12 @@ class ServicoController extends Controller
     }
 
     
-    public function show(Servico $servico)
+    public function show(\App\Models\Servico $servico)
     {
-        //
+        // Carrega o animal e o dono 
+        $servico->load('animal.cliente');
+
+        return view('servico.show', compact('servico'));
     }
 
    

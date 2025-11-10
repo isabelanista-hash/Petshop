@@ -5,31 +5,35 @@
     <title>Criar Novo Cliente</title>
 </head>
 <body>
-    <h1>Adicionar Novo Cliente</h1>
-    <a href="{{ route('cliente.index') }}">Voltar para a Lista</a>
+    @extends('layouts.app')
+
+@section('title', 'Adicionar Novo Cliente')
+
+@section('content')
+    <h1 class="mb-4">Adicionar Novo Cliente</h1>
+    <a href="{{ route('cliente.index') }}" class="btn btn-secondary mb-3">Voltar para a Lista</a>
     <hr>
 
-    @if(session('success'))
-        <p style="color: green;">{{ session('success') }}</p>
-    @endif
-
     <form method="POST" action="{{ route('cliente.store') }}">
-        @csrf <div>
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" required>
+        @csrf
+        
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome:</label>
+            <input type="text" id="nome" name="nome" class="form-control" required>
         </div>
         
-        <div>
-            <label for="telefone">Telefone:</label>
-            <input type="text" id="telefone" name="telefone">
+        <div class="mb-3">
+            <label for="telefone" class="form-label">Telefone:</label>
+            <input type="text" id="telefone" name="telefone" class="form-control">
         </div>
 
-        <div>
-            <label for="endereco">Endereço:</label>
-            <input type="text" id="endereco" name="endereco" required>
+        <div class="mb-3">
+            <label for="endereco" class="form-label">Endereço:</label>
+            <input type="text" id="endereco" name="endereco" class="form-control" required>
         </div>
         
-        <button type="submit">Cadastrar Cliente</button>
+        <button type="submit" class="btn btn-success">Cadastrar Cliente</button>
     </form>
+@endsection
 </body>
 </html>
