@@ -1,0 +1,27 @@
+/* Cor de fundo do cabeçalho e botões primários Verde-azulado) */
+.bg-primary, .btn-primary {
+    background-color: #008080 !important;
+    border-color: #006666 !important;
+}
+
+/* Cor para botões */
+.btn-success {
+    background-color: #38a838 !important;
+    border-color: #2e8a2e !important;
+}
+
+/* Cor para botões de alerta/edição */
+.btn-warning {
+    background-color: #ff9900 !important;
+    border-color: #cc7a00 !important;
+}
+
+/* Estilo para a tag <a> dentro do menu */
+.nav-link {
+    color: #008080 !important;
+}
+
+/* Adicionando uma cor de fundo sutil à página */
+body {
+    background-color: #b3cbf0; 
+}
