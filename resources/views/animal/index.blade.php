@@ -14,7 +14,7 @@
     
     <div class="d-flex justify-content-between mb-3">
         <a href="{{ route('animal.create') }}" class="btn btn-primary">Adicionar Novo Animal</a>
-        <a href="{{ route('cliente.index') }}" class="btn btn-secondary">Ver Clientes</a>
+       
     </div>
 
     @if(session('success'))

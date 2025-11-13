@@ -12,8 +12,8 @@
     @section('content')
 
     <h1 class="mb-4">Serviços Registrados</h1>
-    <a href="{{ route('servico.create') }}" class="btn btn-primary">Adicionar Novo Serviço</a>
-        <a href="{{ route('animal.index') }}" class="btn btn-secondary">Ver Animais</a>
+    <a href="{{ route('servico.create') }}" class="btn btn-primary mb-3">Adicionar Novo Serviço</a>
+        
     </div>
 
     @if(session('success'))

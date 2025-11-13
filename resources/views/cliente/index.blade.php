@@ -12,6 +12,7 @@
 @section('content')
     <h1 class="mb-4">Clientes Cadastrados</h1>
 
+
     <a href="{{ route('cliente.create') }}" class="btn btn-primary mb-3">
         Adicionar Novo Cliente
     </a>
@@ -44,7 +45,7 @@
                     <td>{{ $cliente->nome }}</td>
                     <td>{{ $cliente->telefone }}</td>
                     <td>{{ $cliente->endereco }}</td>
-                   ...
+                   
                 <td>
                     <a href="{{ route('cliente.show', $cliente->id) }}" class="btn btn-sm btn-info">
                         Ver Detalhes
