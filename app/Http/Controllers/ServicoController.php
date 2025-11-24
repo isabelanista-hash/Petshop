@@ -4,76 +4,61 @@ namespace App\Http\Controllers;
 
 use App\Models\Servico;
 use Illuminate\Http\Request;
-use App\Models\Animal;
 
 class ServicoController extends Controller
 {
-    
     public function index()
     {
-        $servicos = Servico::with('animal.cliente')->get();
+        $servicos = Servico::all();
         return view('servico.index', compact('servicos'));
     }
 
-   
     public function create()
     {
-       $animais = Animal::all();
-       return view('servico.create', compact('animais'));
+        return view('servico.create');
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'tipo' => 'required|max:255',
-            'descricao' => 'nullable',
-            'data' => 'required|date',
-            'valor' => 'required|numeric',
-            'animal_id' => 'required|exists:animals,id', // Verifica se o ID do animal existe
+        $dados = $request->validate([
+            'nome' => 'required|max:255',
+            'descricao' => 'nullable|max:500',
+            'preco' => 'required|numeric|min:0',
         ]);
-        Servico::create($request->all());
+
+        Servico::create($dados);
+
         return redirect()->route('servico.index')
                          ->with('success', 'Serviço cadastrado com sucesso!');
     }
 
-    
-    public function show(\App\Models\Servico $servico)
+    public function edit($id)
     {
-        // Carrega o animal e o dono 
-        $servico->load('animal.cliente');
-
-        return view('servico.show', compact('servico'));
+        $servico = Servico::findOrFail($id);
+        return view('servico.edit', compact('servico'));
     }
 
-   
-    public function edit(Servico $servico)
+    public function update(Request $request, $id)
     {
-       $animais = Animal::all();
-       return view('servico.edit', compact('servico', 'animais'));
-    }
+        $servico = Servico::findOrFail($id);
 
-    
-    public function update(Request $request, Servico $servico)
-    {
-       $request->validate([
-            'tipo' => 'required|max:255',
-            'descricao' => 'nullable',
-            'data' => 'required|date',
-            'valor' => 'required|numeric',
-            'animal_id' => 'required|exists:animals,id', 
+        $dados = $request->validate([
+            'nome' => 'required|max:255',
+            'descricao' => 'nullable|max:500',
+            'preco' => 'required|numeric|min:0',
         ]);
-        $servico->update($request->all());
-        
+
+        $servico->update($dados);
+
         return redirect()->route('servico.index')
-                         ->with('success', 'Serviço atualizado com sucesso!');
+                         ->with('success', 'Serviço atualizado!');
     }
 
-   
-    public function destroy(Servico $servico)
+    public function destroy($id)
     {
+        $servico = Servico::findOrFail($id);
         $servico->delete();
-        
         return redirect()->route('servico.index')
-                         ->with('success', 'Serviço excluído com sucesso!');
+                         ->with('success', 'Serviço removido!');
     }
 }

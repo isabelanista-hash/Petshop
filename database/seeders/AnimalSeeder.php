@@ -13,8 +13,8 @@ class AnimalSeeder extends Seeder
     public function run(): void
     {
         $isabela = Cliente::where('nome', 'Isabela Nista')->first(); 
-        $luciene = Cliente::where('nome', 'Luciene Mota')->first(); 
-        $liliam = Cliente::where('nome', 'Liliam fabricio')->first(); 
+        $luciene = Cliente::where('nome', 'Luciene Motta')->first(); 
+        $liliam = Cliente::where('nome', 'Liliam Fabrício')->first(); 
 
 
         if ($isabela) {

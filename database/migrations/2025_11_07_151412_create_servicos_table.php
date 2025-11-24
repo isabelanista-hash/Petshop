@@ -13,12 +13,16 @@ return new class extends Migration
     {
         Schema::create('servicos', function (Blueprint $table) {
             $table->id();
-            $table->string('tipo');
-            $table->text('descricao')->nullable(); 
-            $table->date('data');
-            $table->decimal('valor', 8, 2);
-        // Animal que possui muitos Serviços
-            $table->foreignId('animal_id')->constrained('animals')->onDelete('cascade');
+            
+            // MUDANÇAS PARA VIRAR UM CATÁLOGO:
+            $table->string('nome'); // Antes era 'tipo'. Ex: "Banho Simples"
+            $table->text('descricao')->nullable(); // Mantemos. Ex: "Inclui corte de unhas"
+            $table->decimal('preco', 10, 2); // Antes era 'valor'. Preço padrão do serviço.
+            
+            // REMOVIDOS:
+            // $table->date('data'); -> Isso vai para o AGENDAMENTO
+            // $table->foreignId('animal_id'); -> Isso vai para o AGENDAMENTO
+            
             $table->timestamps();
         });
     }

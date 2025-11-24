@@ -11,10 +11,18 @@ class Cliente extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nome',
-        'telefone',
-        'endereco',
-    ];
+    'nome', 
+    'email', 
+    'telefone',
+    // Novos campos adicionados
+    'cep',
+    'logradouro',
+    'numero',
+    'bairro',
+    'cidade',
+    'estado',
+    'complemento'
+];
 
     
     public function animals(): HasMany

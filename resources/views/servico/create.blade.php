@@ -1,56 +1,50 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Cadastrar Novo Serviço</title>
-</head>
-<body>
-   @extends('layouts.app')
+@extends('layouts.app')
 
-@section('title', 'Cadastrar Novo Serviço')
+@section('title', 'Novo Serviço')
 
 @section('content')
-    <h1 class="mb-4">Adicionar Novo Serviço</h1>
-    <a href="{{ route('servico.index') }}" class="btn btn-secondary mb-3">Voltar para a Lista</a>
-    <hr>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card card-custom">
+            <div class="card-header card-header-pet py-3 bg-white">
+                <h4 class="mb-0 fw-bold text-dark"><i class="bi bi-scissors me-2"></i> Cadastrar Serviço</h4>
+            </div>
+            <div class="card-body p-4">
+                
+                @if($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">@foreach($errors->all() as $erro) <li>{{ $erro }}</li> @endforeach</ul>
+                    </div>
+                @endif
 
-    <form method="POST" action="{{ route('servico.store') }}">
-        @csrf
-        
-        <div class="mb-3">
-            <label for="tipo" class="form-label">Tipo de Serviço:</label>
-            <input type="text" id="tipo" name="tipo" class="form-control" required>
-        </div>
-        
-        <div class="mb-3">
-            <label for="valor" class="form-label">Valor (R$):</label>
-            <input type="number" step="0.01" id="valor" name="valor" class="form-control" required>
-        </div>
-        
-        <div class="mb-3">
-            <label for="data" class="form-label">Data:</label>
-            <input type="date" id="data" name="data" class="form-control" required>
-        </div>
-        
-        {{-- CORREÇÃO: Usar TEXTAREA para descrição --}}
-        <div class="mb-3">
-            <label for="descricao" class="form-label">Descrição:</label>
-            <textarea id="descricao" name="descricao" class="form-control"></textarea>
-        </div>
+                <form action="{{ route('servico.store') }}" method="POST">
+                    @csrf
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Nome do Serviço</label>
+                        <input type="text" name="nome" class="form-control" value="{{ old('nome') }}" placeholder="Ex: Banho e Tosa" required>
+                    </div>
 
-        <div class="mb-3">
-            <label for="animal_id" class="form-label">Animal:</label>
-            <select id="animal_id" name="animal_id" class="form-select" required>
-                <option value="">Selecione o Animal</option>
-                {{-- A variável $animais é enviada pelo ServicoController@create --}}
-                @foreach($animais as $animal)
-                    <option value="{{ $animal->id }}">{{ $animal->nome }} (Dono: {{ $animal->cliente->nome ?? 'N/D' }})</option>
-                @endforeach
-            </select>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Preço (R$)</label>
+                        <div class="input-group">
+                            <span class="input-group-text">R$</span>
+                            <input type="number" name="preco" class="form-control" value="{{ old('preco') }}" step="0.01" placeholder="0,00" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Descrição</label>
+                        <textarea name="descricao" class="form-control" rows="3" placeholder="Detalhes do serviço...">{{ old('descricao') }}</textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{{ route('servico.index') }}" class="btn btn-outline-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-pet px-4">Salvar Serviço</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        
-        <button type="submit" class="btn btn-success">Cadastrar Serviço</button>
-    </form>
+    </div>
+</div>
 @endsection
-</body>
-</html>
